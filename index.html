@@ -2,14 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CMS Quiz - Business & Theory</title>
+<title>CMS Quiz</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 body {
   font-family: Arial, sans-serif;
-  margin: 40px;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  margin-top: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 h1 {
-  color: #2c3e50;
+  text-align: center;
+}
+.lang-btn {
+  float: right;
+  margin-bottom: 20px;
 }
 .question {
   margin-bottom: 20px;
@@ -17,149 +36,151 @@ h1 {
 button {
   padding: 10px 20px;
   font-size: 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
-#result {
+button:hover {
+  background: #2980b9;
+}
+.correct { color: green; }
+.wrong { color: red; }
+canvas {
   margin-top: 30px;
-  font-weight: bold;
-}
-.correct {
-  color: green;
-}
-.wrong {
-  color: red;
 }
 </style>
 </head>
 
 <body>
 
-<h1>CMS Theory & Business Quiz</h1>
+<div class="container">
 
-<form id="quizForm">
+<button class="lang-btn" onclick="toggleLanguage()">🇮🇹 / 🇬🇧</button>
 
-<div class="question">
-<p>1. What does CMS stand for?</p>
-<input type="radio" name="q1" value="A"> A. Content Management System<br>
-<input type="radio" name="q1" value="B"> B. Code Management Software<br>
-<input type="radio" name="q1" value="C"> C. Central Media Server
-</div>
+<h1 id="title">CMS Theory & Business Quiz</h1>
 
-<div class="question">
-<p>2. What is the main purpose of a CMS?</p>
-<input type="radio" name="q2" value="A"> A. Manage hardware<br>
-<input type="radio" name="q2" value="B"> B. Create and manage digital content<br>
-<input type="radio" name="q2" value="C"> C. Replace developers
-</div>
+<form id="quizForm"></form>
 
-<div class="question">
-<p>3. Which is a popular CMS?</p>
-<input type="radio" name="q3" value="A"> A. MySQL<br>
-<input type="radio" name="q3" value="B"> B. WordPress<br>
-<input type="radio" name="q3" value="C"> C. Python
-</div>
-
-<div class="question">
-<p>4. Why do companies use a CMS?</p>
-<input type="radio" name="q4" value="A"> A. Reduce electricity<br>
-<input type="radio" name="q4" value="B"> B. Manage content efficiently<br>
-<input type="radio" name="q4" value="C"> C. Remove marketing
-</div>
-
-<div class="question">
-<p>5. Who benefits most from a CMS?</p>
-<input type="radio" name="q5" value="A"> A. Content editors<br>
-<input type="radio" name="q5" value="B"> B. Network engineers<br>
-<input type="radio" name="q5" value="C"> C. Accountants
-</div>
-
-<div class="question">
-<p>6. Key advantage of a CMS?</p>
-<input type="radio" name="q6" value="A"> A. Faster updates<br>
-<input type="radio" name="q6" value="B"> B. Faster internet<br>
-<input type="radio" name="q6" value="C"> C. Free hardware
-</div>
-
-<div class="question">
-<p>7. First step to implement a CMS?</p>
-<input type="radio" name="q7" value="A"> A. Install plugins<br>
-<input type="radio" name="q7" value="B"> B. Define business needs<br>
-<input type="radio" name="q7" value="C"> C. Design logo
-</div>
-
-<div class="question">
-<p>8. How to keep a CMS secure?</p>
-<input type="radio" name="q8" value="A"> A. Never update<br>
-<input type="radio" name="q8" value="B"> B. Regular updates & backups<br>
-<input type="radio" name="q8" value="C"> C. Share passwords
-</div>
-
-<div class="question">
-<p>9. What is user role management?</p>
-<input type="radio" name="q9" value="A"> A. Salary control<br>
-<input type="radio" name="q9" value="B"> B. Assign permissions<br>
-<input type="radio" name="q9" value="C"> C. Server creation
-</div>
-
-<div class="question">
-<p>10. How does CMS help marketing?</p>
-<input type="radio" name="q10" value="A"> A. Hardware control<br>
-<input type="radio" name="q10" value="B"> B. SEO-friendly content<br>
-<input type="radio" name="q10" value="C"> C. Replace ads
-</div>
-
-<div class="question">
-<p>11. Which KPI measures CMS success?</p>
-<input type="radio" name="q11" value="A"> A. Number of servers<br>
-<input type="radio" name="q11" value="B"> B. Traffic & engagement<br>
-<input type="radio" name="q11" value="C"> C. Office rent
-</div>
-
-<div class="question">
-<p>12. Long-term benefit of CMS?</p>
-<input type="radio" name="q12" value="A"> A. Sustainable growth<br>
-<input type="radio" name="q12" value="B"> B. No IT needed<br>
-<input type="radio" name="q12" value="C"> C. No strategy
-</div>
-
-<button type="button" onclick="checkAnswers()">Submit Quiz</button>
-</form>
+<button onclick="submitQuiz()">Submit</button>
 
 <div id="result"></div>
 <div id="answers"></div>
 
+<canvas id="skillChart" width="400" height="200"></canvas>
+
+</div>
+
 <script>
-const correctAnswers = {
-  q1: "A", q2: "B", q3: "B", q4: "B",
-  q5: "A", q6: "A", q7: "B", q8: "B",
-  q9: "B", q10: "B", q11: "B", q12: "A"
+let language = "en";
+
+const questions = {
+  en: [
+    ["What does CMS stand for?", ["Content Management System","Code Management Software","Central Media Server"], 0, "basics"],
+    ["Main purpose of a CMS?", ["Manage hardware","Manage digital content","Replace developers"], 1, "basics"],
+    ["Popular CMS?", ["MySQL","WordPress","Python"], 1, "basics"],
+    ["Why companies use a CMS?", ["Reduce costs","Manage content efficiently","Remove marketing"], 1, "business"],
+    ["Who benefits most?", ["Content editors","Network engineers","Accountants"], 0, "business"],
+    ["Key advantage?", ["Fast updates","Fast internet","Free hardware"], 0, "business"],
+    ["First implementation step?", ["Install plugins","Define business needs","Design logo"], 1, "security"],
+    ["Security action?", ["Never update","Updates & backups","Share passwords"], 1, "security"],
+    ["User role management?", ["Salary control","Assign permissions","Create servers"], 1, "security"],
+    ["CMS helps marketing by?", ["Hardware control","SEO content","Replacing ads"], 1, "strategy"],
+    ["CMS KPI?", ["Servers","Traffic & engagement","Rent cost"], 1, "strategy"],
+    ["Long-term benefit?", ["Sustainable growth","No IT","No strategy"], 0, "strategy"]
+  ],
+  it: [
+    ["Cosa significa CMS?", ["Content Management System","Software di codice","Server centrale"], 0, "basics"],
+    ["Scopo principale di un CMS?", ["Gestire hardware","Gestire contenuti digitali","Sostituire sviluppatori"], 1, "basics"],
+    ["CMS popolare?", ["MySQL","WordPress","Python"], 1, "basics"],
+    ["Perché le aziende usano un CMS?", ["Ridurre costi","Gestire contenuti","Eliminare marketing"], 1, "business"],
+    ["Chi ne beneficia di più?", ["Editor contenuti","Ingegneri di rete","Contabili"], 0, "business"],
+    ["Vantaggio chiave?", ["Aggiornamenti rapidi","Internet veloce","Hardware gratis"], 0, "business"],
+    ["Primo passo?", ["Installare plugin","Definire bisogni","Logo"], 1, "security"],
+    ["Sicurezza CMS?", ["Mai aggiornare","Aggiornamenti e backup","Condividere password"], 1, "security"],
+    ["Gestione ruoli?", ["Stipendi","Permessi","Server"], 1, "security"],
+    ["Marketing CMS?", ["Hardware","SEO","Sostituisce ads"], 1, "strategy"],
+    ["KPI CMS?", ["Server","Traffico","Affitto"], 1, "strategy"],
+    ["Beneficio a lungo termine?", ["Crescita sostenibile","No IT","No strategia"], 0, "strategy"]
+  ]
 };
 
-function checkAnswers() {
+function loadQuiz() {
+  const form = document.getElementById("quizForm");
+  form.innerHTML = "";
+  questions[language].forEach((q, i) => {
+    let html = `<div class="question"><p>${i+1}. ${q[0]}</p>`;
+    q[1].forEach((opt, j) => {
+      html += `<input type="radio" name="q${i}" value="${j}"> ${opt}<br>`;
+    });
+    html += "</div>";
+    form.innerHTML += html;
+  });
+}
+
+function toggleLanguage() {
+  language = language === "en" ? "it" : "en";
+  document.getElementById("title").innerText =
+    language === "en" ? "CMS Theory & Business Quiz" : "Quiz CMS Teoria e Azienda";
+  loadQuiz();
+}
+
+function submitQuiz() {
   let score = 0;
-  let output = "<h2>Correct Answers</h2>";
+  let skills = { basics:0, business:0, security:0, strategy:0 };
+  let count = { basics:0, business:0, security:0, strategy:0 };
+  let answersHtml = "<h2>Answers</h2>";
 
-  for (let q in correctAnswers) {
-    const userAnswer = document.querySelector(`input[name="${q}"]:checked`);
-    if (userAnswer && userAnswer.value === correctAnswers[q]) {
+  questions[language].forEach((q, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    count[q[3]]++;
+    if (sel && parseInt(sel.value) === q[2]) {
       score++;
-      output += `<p class="correct">${q.toUpperCase()}: Correct</p>`;
+      skills[q[3]]++;
+      answersHtml += `<p class="correct">${i+1}: Correct</p>`;
     } else {
-      output += `<p class="wrong">${q.toUpperCase()}: Wrong (Correct: ${correctAnswers[q]})</p>`;
+      answersHtml += `<p class="wrong">${i+1}: Wrong</p>`;
     }
-  }
+  });
 
-  let level = "";
-  if (score <= 4) level = "Beginner";
-  else if (score <= 8) level = "Intermediate";
-  else if (score <= 10) level = "Advanced";
-  else level = "Expert";
+  localStorage.setItem("cmsQuizScore", score);
 
   document.getElementById("result").innerHTML =
-    `<h2>Your Score: ${score}/12</h2><p>Level: ${level}</p>`;
+    `<h2>Score: ${score}/12</h2>`;
 
-  document.getElementById("answers").innerHTML = output;
+  document.getElementById("answers").innerHTML = answersHtml;
+
+  drawChart(skills, count);
 }
+
+function drawChart(skills, count) {
+  const data = [
+    (skills.basics/count.basics)*100,
+    (skills.business/count.business)*100,
+    (skills.security/count.security)*100,
+    (skills.strategy/count.strategy)*100
+  ];
+
+  new Chart(document.getElementById("skillChart"), {
+    type: 'bar',
+    data: {
+      labels: ['Basics','Business','Security','Strategy'],
+      datasets: [{
+        label: 'Skill Level %',
+        data: data,
+        backgroundColor: '#3498db'
+      }]
+    },
+    options: {
+      scales: { y: { beginAtZero: true, max: 100 } }
+    }
+  });
+}
+
+loadQuiz();
 </script>
 
 </body>
 </html>
+
