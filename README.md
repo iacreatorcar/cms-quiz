@@ -1,91 +1,109 @@
 # cms-quiz
 📘 CMS Theory & Business Quiz
+🇮🇹 Italiano
 🧠 Descrizione del Progetto
 
-CMS Theory & Business Quiz è una web application interattiva sviluppata in HTML, CSS e JavaScript che permette agli utenti di testare le proprie conoscenze sui Content Management System (CMS) dal punto di vista teorico, business, sicurezza e strategia.
+CMS Theory & Business Quiz è una web application interattiva sviluppata con HTML, CSS e JavaScript.
+Il progetto ha lo scopo di valutare le conoscenze teoriche e pratiche sui Content Management System (CMS), analizzandone aspetti tecnici, di business, sicurezza e strategia.
 
-L’applicazione è multilingua (Italiano / Inglese), fornisce un risultato finale, mostra le risposte corrette ed errate e visualizza un grafico delle competenze tramite Chart.js.
+È pensato per scopi scolastici/didattici e come progetto da portfolio personale.
 
-🎯 Obiettivi del Progetto
+🎯 Obiettivi Didattici
 
-Valutare la conoscenza sui CMS
+Comprendere il concetto di CMS
 
-Distinguere le competenze per area (Basics, Business, Security, Strategy)
+Analizzare il ruolo dei CMS nel business digitale
 
-Offrire un’interfaccia semplice e intuitiva
+Valutare aspetti di sicurezza e strategia
 
-Dimostrare l’uso di JavaScript per applicazioni dinamiche
+Applicare JavaScript per creare applicazioni dinamiche
 
-Salvare il punteggio localmente nel browser
+Visualizzare dati tramite grafici
 
-🚀 Funzionalità Principali
-✅ Quiz Dinamico
+🚀 Funzionalità
 
-12 domande a risposta multipla
+✅ Quiz a risposta multipla (12 domande)
 
-Domande generate dinamicamente tramite JavaScript
+🌍 Supporto multilingua (Italiano / Inglese)
 
-Ogni domanda appartiene a una categoria specifica
+📊 Grafico delle competenze con Chart.js
 
-🌍 Supporto Multilingua
+📝 Risultati dettagliati con risposte corrette/errate
 
-Cambio lingua in tempo reale 🇮🇹 / 🇬🇧
+💾 Salvataggio punteggio tramite LocalStorage
 
-Domande e titolo si aggiornano automaticamente
-
-📊 Analisi delle Competenze
-
-Grafico a barre con Chart.js
-
-Percentuale di competenza per:
-
-Basics
-
-Business
-
-Security
-
-Strategy
-
-📝 Risultati Dettagliati
-
-Punteggio finale
-
-Evidenziazione risposte corrette e sbagliate
-
-Feedback immediato all’utente
-
-💾 Local Storage
-
-Salvataggio del punteggio usando localStorage
-
-Dati persistenti nel browser
+🎨 Interfaccia moderna e responsive
 
 🛠️ Tecnologie Utilizzate
 
 HTML5 – struttura della pagina
 
-CSS3 – stile e layout responsive
+CSS3 – stile e layout
 
 JavaScript (Vanilla) – logica del quiz
 
-Chart.js – visualizzazione grafica dei risultati
+Chart.js – visualizzazione grafica
 
 LocalStorage API – memorizzazione dati lato client
 
 📁 Struttura del Progetto
-/
+cms-quiz/
 ├── index.html
+├── style.css
+├── script.js
 └── README.md
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🇬🇧 English
+🧠 Project Description
 
-Tutto il codice (HTML, CSS e JS) è contenuto in un unico file per semplicità.
-Progetto realizzato per scopi didattici e dimostrativi, utile per comprendere:
+CMS Theory & Business Quiz is an interactive web application developed using HTML, CSS, and JavaScript.
+The project aims to assess knowledge about Content Management Systems (CMS), focusing on theory, business, security, and digital strategy.
 
-CMS
+It is designed for educational purposes and as a personal portfolio project.
 
-logica JavaScript
+🎯 Educational Goals
 
-interazione utente
+Understand what a CMS is
 
-visualizzazione dati
+Analyze CMS usage in digital business
+
+Learn basic security and strategy concepts
+
+Practice JavaScript for dynamic web apps
+
+Visualize data using charts
+
+🚀 Features
+
+✅ Multiple-choice quiz (12 questions)
+
+🌍 Multilingual support (Italian / English)
+
+📊 Skill analysis chart using Chart.js
+
+📝 Detailed results with correct/incorrect answers
+
+💾 Score saved via LocalStorage
+
+🎨 Modern and clean user interface
+
+🛠️ Technologies Used
+
+HTML5 – page structure
+
+CSS3 – styling and layout
+
+JavaScript (Vanilla) – quiz logic
+
+Chart.js – data visualization
+
+LocalStorage API – client-side data storage
+
+📁 Project Structure
+cms-quiz/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
