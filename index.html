@@ -1,186 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>CMS Quiz</title>
+  <meta charset="UTF-8">
+  <title>CMS Quiz</title>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  margin-top: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-h1 {
-  text-align: center;
-}
-.lang-btn {
-  float: right;
-  margin-bottom: 20px;
-}
-.question {
-  margin-bottom: 20px;
-}
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-button:hover {
-  background: #2980b9;
-}
-.correct { color: green; }
-.wrong { color: red; }
-canvas {
-  margin-top: 30px;
-}
-</style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-<button class="lang-btn" onclick="toggleLanguage()">🇮🇹 / 🇬🇧</button>
+    <button class="lang-btn" onclick="toggleLanguage()">🇮🇹 / 🇬🇧</button>
 
-<h1 id="title">CMS Theory & Business Quiz</h1>
+    <h1 id="title">CMS Theory & Business Quiz</h1>
 
-<form id="quizForm"></form>
+    <form id="quizForm"></form>
 
-<button onclick="submitQuiz()">Submit</button>
+    <div class="center">
+      <button onclick="submitQuiz()">Submit Quiz</button>
+    </div>
 
-<div id="result"></div>
-<div id="answers"></div>
+    <div id="result"></div>
+    <div id="answers"></div>
 
-<canvas id="skillChart" width="400" height="200"></canvas>
+    <canvas id="skillChart" width="400" height="200"></canvas>
 
-</div>
+  </div>
 
-<script>
-let language = "en";
-
-const questions = {
-  en: [
-    ["What does CMS stand for?", ["Content Management System","Code Management Software","Central Media Server"], 0, "basics"],
-    ["Main purpose of a CMS?", ["Manage hardware","Manage digital content","Replace developers"], 1, "basics"],
-    ["Popular CMS?", ["MySQL","WordPress","Python"], 1, "basics"],
-    ["Why companies use a CMS?", ["Reduce costs","Manage content efficiently","Remove marketing"], 1, "business"],
-    ["Who benefits most?", ["Content editors","Network engineers","Accountants"], 0, "business"],
-    ["Key advantage?", ["Fast updates","Fast internet","Free hardware"], 0, "business"],
-    ["First implementation step?", ["Install plugins","Define business needs","Design logo"], 1, "security"],
-    ["Security action?", ["Never update","Updates & backups","Share passwords"], 1, "security"],
-    ["User role management?", ["Salary control","Assign permissions","Create servers"], 1, "security"],
-    ["CMS helps marketing by?", ["Hardware control","SEO content","Replacing ads"], 1, "strategy"],
-    ["CMS KPI?", ["Servers","Traffic & engagement","Rent cost"], 1, "strategy"],
-    ["Long-term benefit?", ["Sustainable growth","No IT","No strategy"], 0, "strategy"]
-  ],
-  it: [
-    ["Cosa significa CMS?", ["Content Management System","Software di codice","Server centrale"], 0, "basics"],
-    ["Scopo principale di un CMS?", ["Gestire hardware","Gestire contenuti digitali","Sostituire sviluppatori"], 1, "basics"],
-    ["CMS popolare?", ["MySQL","WordPress","Python"], 1, "basics"],
-    ["Perché le aziende usano un CMS?", ["Ridurre costi","Gestire contenuti","Eliminare marketing"], 1, "business"],
-    ["Chi ne beneficia di più?", ["Editor contenuti","Ingegneri di rete","Contabili"], 0, "business"],
-    ["Vantaggio chiave?", ["Aggiornamenti rapidi","Internet veloce","Hardware gratis"], 0, "business"],
-    ["Primo passo?", ["Installare plugin","Definire bisogni","Logo"], 1, "security"],
-    ["Sicurezza CMS?", ["Mai aggiornare","Aggiornamenti e backup","Condividere password"], 1, "security"],
-    ["Gestione ruoli?", ["Stipendi","Permessi","Server"], 1, "security"],
-    ["Marketing CMS?", ["Hardware","SEO","Sostituisce ads"], 1, "strategy"],
-    ["KPI CMS?", ["Server","Traffico","Affitto"], 1, "strategy"],
-    ["Beneficio a lungo termine?", ["Crescita sostenibile","No IT","No strategia"], 0, "strategy"]
-  ]
-};
-
-function loadQuiz() {
-  const form = document.getElementById("quizForm");
-  form.innerHTML = "";
-  questions[language].forEach((q, i) => {
-    let html = `<div class="question"><p>${i+1}. ${q[0]}</p>`;
-    q[1].forEach((opt, j) => {
-      html += `<input type="radio" name="q${i}" value="${j}"> ${opt}<br>`;
-    });
-    html += "</div>";
-    form.innerHTML += html;
-  });
-}
-
-function toggleLanguage() {
-  language = language === "en" ? "it" : "en";
-  document.getElementById("title").innerText =
-    language === "en" ? "CMS Theory & Business Quiz" : "Quiz CMS Teoria e Azienda";
-  loadQuiz();
-}
-
-function submitQuiz() {
-  let score = 0;
-  let skills = { basics:0, business:0, security:0, strategy:0 };
-  let count = { basics:0, business:0, security:0, strategy:0 };
-  let answersHtml = "<h2>Answers</h2>";
-
-  questions[language].forEach((q, i) => {
-    const sel = document.querySelector(`input[name="q${i}"]:checked`);
-    count[q[3]]++;
-    if (sel && parseInt(sel.value) === q[2]) {
-      score++;
-      skills[q[3]]++;
-      answersHtml += `<p class="correct">${i+1}: Correct</p>`;
-    } else {
-      answersHtml += `<p class="wrong">${i+1}: Wrong</p>`;
-    }
-  });
-
-  localStorage.setItem("cmsQuizScore", score);
-
-  document.getElementById("result").innerHTML =
-    `<h2>Score: ${score}/12</h2>`;
-
-  document.getElementById("answers").innerHTML = answersHtml;
-
-  drawChart(skills, count);
-}
-
-function drawChart(skills, count) {
-  const data = [
-    (skills.basics/count.basics)*100,
-    (skills.business/count.business)*100,
-    (skills.security/count.security)*100,
-    (skills.strategy/count.strategy)*100
-  ];
-
-  new Chart(document.getElementById("skillChart"), {
-    type: 'bar',
-    data: {
-      labels: ['Basics','Business','Security','Strategy'],
-      datasets: [{
-        label: 'Skill Level %',
-        data: data,
-        backgroundColor: '#3498db'
-      }]
-    },
-    options: {
-      scales: { y: { beginAtZero: true, max: 100 } }
-    }
-  });
-}
-
-loadQuiz();
-</script>
-
+  <!-- JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
 
