@@ -80,3 +80,12 @@ LocalStorage API – memorizzazione dati lato client
 
 
 Tutto il codice (HTML, CSS e JS) è contenuto in un unico file per semplicità.
+Progetto realizzato per scopi didattici e dimostrativi, utile per comprendere:
+
+CMS
+
+logica JavaScript
+
+interazione utente
+
+visualizzazione dati
